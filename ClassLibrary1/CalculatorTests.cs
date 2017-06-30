@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using ClassLibrary1.Temp;
 using NUnit.Framework;
 
 namespace ClassLibrary1
@@ -37,15 +38,15 @@ namespace ClassLibrary1
             Assert.AreEqual(expected, new Calculator().Calculate(expression));
         }
 
-        [TestCase("1+2", 3)]
-        [TestCase("1+000", 1)]
-        [TestCase("1+2+3", 6)]
-        [TestCase("+1+2+3", 6)]
+        //        [TestCase("1+2", 3)]
+        //        [TestCase("1+000", 1)]
+        //        [TestCase("1+2+3", 6)]
+        //        [TestCase("+1+2+3", 6)]
         [TestCase("-1+2+3", 4)]
-        [TestCase("4+5+6", 15)]
-        [TestCase("-1+2+3-1", 3)]
-        [TestCase("-11+22+33-111", -67)]
-        [TestCase("-11+22+33-111", -67)]
+        //        [TestCase("4+5+6", 15)]
+        //        [TestCase("-1+2+3-1", 3)]
+        //        [TestCase("-11+22+33-111", -67)]
+        //        [TestCase("-11+22+33-111", -67)]
         public void Calculates_simple_expressions(string expression, int expected)
         {
             Assert.AreEqual(expected, new Calculator().Calculate(expression));
@@ -95,11 +96,10 @@ namespace ClassLibrary1
         [TestCase("--")]
         [TestCase("-+")]
         [TestCase("1++")]
+        [TestCase("1 2")]
         [TestCase("1++2")]
         [TestCase("1+")]
         [TestCase("1+2;")]
-        [TestCase("1*2")]
-        [TestCase("1/2")]
         [TestCase("1-")]
         [TestCase("1-2-")]
         [TestCase("1-2-2 2")]
@@ -128,6 +128,26 @@ namespace ClassLibrary1
                 sb.Append("+11");
 
             Assert.AreEqual(11 + 11 * n, new Calculator().Calculate(sb.ToString()));
+        }
+
+        [TestCase("1*2", 2)]
+        [TestCase("1+2*3", 7)]
+        [TestCase("1+2*3*4*2*1", 1 + 2 * 3 * 4 * 2 * 1)]
+        [TestCase("100-100/2/2/(2/2*3)", 100 - 100 / 2 / 2 / (2 / 2 * 3))]
+        [TestCase("4/2", 4 / 2)]
+        [TestCase("(1+2)*3", (1 + 2) * 3)]
+        [TestCase("(1+2)/3", (1 + 2) / 3)]
+        [TestCase("(1 + 2 + (1 + 3) * 5 * (1 + 2) - 4 + (2 * 3 + 5 * (1 + 2))) * 3", (1 + 2 + (1 + 3) * 5 * (1 + 2) - 4 + (2 * 3 + 5 * (1 + 2))) * 3)]
+        [TestCase("(1 + 2 + (1 + 3) * 5 * (1 + 2) - 4 + (2 / 3 + 5 * (1 + 2))) / 3 / 1 / 1 / 1", (1 + 2 + (1 + 3) * 5 * (1 + 2) - 4 + (2 / 3 + 5 * (1 + 2))) / 3 / 1 / 1 / 1)]
+        public void Calculates_division_and_multiplication_with_paranthesises(string expression, int expected)
+        {
+            Assert.AreEqual(expected, new Calculator().Calculate(expression));
+        }
+
+        [TestCase]
+        public void FooFoo()
+        {
+            Test.Foo();
         }
     }
 }
